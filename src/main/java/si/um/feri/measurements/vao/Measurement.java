@@ -1,9 +1,8 @@
-package si.um.feri.telecom.vao;
+package si.um.feri.measurements.vao;
 
 import jakarta.persistence.*;
-import si.um.feri.telecom.dto.post.PostMeasurement;
+import si.um.feri.measurements.dto.post.PostMeasurement;
 
-import javax.annotation.processing.Generated;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,10 +17,10 @@ public class Measurement {
 
 	}
 
-	public si.um.feri.telecom.dto.Measurement toDto() {
-		return new si.um.feri.telecom.dto.Measurement(
+	public si.um.feri.measurements.dto.Measurement toDto() {
+		return new si.um.feri.measurements.dto.Measurement(
 			id,
-				si.um.feri.telecom.dto.Measurement.JSON_DATE_FORMAT.format(created),
+				si.um.feri.measurements.dto.Measurement.JSON_DATE_FORMAT.format(created),
 			(product!=null)?product.getId():-1,
 			value,
 			isOk

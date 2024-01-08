@@ -1,20 +1,17 @@
-package si.um.feri.telecom;
+package si.um.feri.measurements;
 
 import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.runtime.Startup;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.vertx.VertxContextSupport;
-import io.smallrye.mutiny.Uni;
-import io.smallrye.mutiny.subscription.Cancellable;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
 import org.hibernate.reactive.mutiny.Mutiny;
-import si.um.feri.telecom.dao.MeasurementRepository;
-import si.um.feri.telecom.dao.ProductRepository;
-import si.um.feri.telecom.dto.post.PostMeasurement;
-import si.um.feri.telecom.vao.Measurement;
-import si.um.feri.telecom.vao.Product;
+import si.um.feri.measurements.dao.MeasurementRepository;
+import si.um.feri.measurements.dao.ProductRepository;
+import si.um.feri.measurements.dto.post.PostMeasurement;
+import si.um.feri.measurements.vao.Measurement;
+import si.um.feri.measurements.vao.Product;
 
 @ApplicationScoped
 public class AddTestData {
@@ -25,8 +22,6 @@ public class AddTestData {
     MeasurementRepository measurementRepository;
 
     public void onStart(@Observes StartupEvent ev) throws Throwable {
-        VertxContextSupport.subscribeAndAwait(() ->
-            Panache.withTransaction(() -> {
                 Product p1 = new Product();
                 p1.setName("Milka Classic");
                 p1.setMinMeasure(-5.0);
@@ -39,7 +34,9 @@ public class AddTestData {
 
                 PostMeasurement pm1 = new PostMeasurement(p1.getId(), 12);
                 PostMeasurement pm2 = new PostMeasurement(p1.getId(), -10);
-                return productRepository.persist(p1, p2).chain(() -> measurementRepository.persist(new Measurement(pm1, p1), new Measurement(pm2, p2)));
-            }));
+                /*TODO() persist še ni implementiran
+                productRepository.persist(p1, p2)
+                measurementRepository.persist(new Measurement(pm1, p1), new Measurement(pm2, p2)))
+                */
     }
 }

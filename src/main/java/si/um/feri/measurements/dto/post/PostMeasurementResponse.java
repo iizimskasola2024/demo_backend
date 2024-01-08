@@ -1,4 +1,4 @@
-package si.um.feri.telecom.dto.post;
+package si.um.feri.measurements.dto.post;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
