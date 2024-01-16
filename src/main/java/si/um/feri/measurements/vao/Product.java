@@ -1,88 +1,43 @@
 package si.um.feri.measurements.vao;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import si.um.feri.measurements.dto.ProductDTO;
 
 import java.time.LocalDateTime;
 
 @Entity
-public class Product {
+@Data
+@NoArgsConstructor
+public class Product extends PanacheEntityBase {
 
-	public Product(si.um.feri.measurements.dto.Product dto) {
-		setName(dto.name());
-		setMaxMeasure(dto.maxMeasure());
-		setMinMeasure(dto.minMeasure());
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-	public Product() {
+    public String name;
+    public LocalDateTime created = LocalDateTime.now();
+    public double maxMeasure;
+    public double minMeasure;
 
-	}
+    public Product(ProductDTO dto) {
+        this.name = dto.name();
+        this.maxMeasure = dto.maxMeasure();
+        this.minMeasure = dto.minMeasure();
+    }
 
-	public void updateFrom(si.um.feri.measurements.dto.Product dto) {
-		setName(dto.name());
-		setMaxMeasure(dto.maxMeasure());
-		setMinMeasure(dto.minMeasure());
-	}
-	
-	public si.um.feri.measurements.dto.Product toDto() {
-		return new si.um.feri.measurements.dto.Product(
-			getId(),
-			getName(),
-			maxMeasure,
-			minMeasure);
-	}
+    public void updateFrom(ProductDTO dto) {
+        this.name = dto.name();
+        this.maxMeasure = dto.maxMeasure();
+        this.minMeasure = dto.minMeasure();
+    }
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected int id;
-
-	protected String name;
-
-	protected LocalDateTime created=LocalDateTime.now();
-
-	protected double maxMeasure;
-
-	protected double minMeasure;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public LocalDateTime getCreated() {
-		return created;
-	}
-
-	public void setCreated(LocalDateTime created) {
-		this.created = created;
-	}
-
-	public double getMaxMeasure() {
-		return maxMeasure;
-	}
-
-	public void setMaxMeasure(double maxMeasure) {
-		this.maxMeasure = maxMeasure;
-	}
-
-	public double getMinMeasure() {
-		return minMeasure;
-	}
-
-	public void setMinMeasure(double minMeasure) {
-		this.minMeasure = minMeasure;
-	}
+    public ProductDTO toDto() {
+        return new ProductDTO(id, name, maxMeasure, minMeasure);
+    }
 }
