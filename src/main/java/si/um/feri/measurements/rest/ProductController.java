@@ -1,9 +1,11 @@
 package si.um.feri.measurements.rest;
 
+import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import si.um.feri.measurements.dao.ProductRepository;
 import si.um.feri.measurements.dto.ProductDTO;
 import si.um.feri.measurements.vao.Product;
 
@@ -18,9 +20,12 @@ public class ProductController {
 
     private static final Logger log = Logger.getLogger(ProductController.class.getName());
 
+    @Inject
+    ProductRepository productRepository;
+
     @GET
     public List<ProductDTO> getAllProducts() {
-        return Product.<Product>listAll().stream() // Explicitly specify the type
+        return productRepository.listAll().stream()
                 .map(Product::toDto)
                 .collect(Collectors.toList());
     }
@@ -28,7 +33,7 @@ public class ProductController {
     @GET
     @Path("/{id}")
     public Response getProductById(@PathParam("id") int id) {
-        Product product = Product.findById(id);
+        Product product = productRepository.findById((long) id);
         if (product == null) {
             log.info(() -> "/products/" + id + " ; Product not found!");
             return Response.status(Response.Status.NOT_FOUND).entity("Product not found").build();
@@ -40,7 +45,7 @@ public class ProductController {
     @Transactional
     public Response postProduct(ProductDTO dto) {
         Product product = new Product(dto);
-        product.persist();
+        productRepository.persist(product);
         return Response.ok(product.toDto()).status(Response.Status.CREATED).build();
     }
 
@@ -48,13 +53,13 @@ public class ProductController {
     @Path("/{id}")
     @Transactional
     public Response putProduct(@PathParam("id") int id, ProductDTO dto) {
-        Product product = Product.findById(id);
+        Product product = productRepository.findById((long) id);
         if (product == null) {
             log.info(() -> "/products/" + id + " ; Product not found!");
             return Response.status(Response.Status.NOT_FOUND).entity("Product not found").build();
         }
         product.updateFrom(dto);
-        product.persist();
+        productRepository.persist(product);
         return Response.ok(product.toDto()).build();
     }
 
@@ -62,13 +67,12 @@ public class ProductController {
     @Path("/{id}")
     @Transactional
     public Response deleteProduct(@PathParam("id") int id) {
-        Product product = Product.findById(id);
+        Product product = productRepository.findById((long) id);
         if (product == null) {
             log.info(() -> "/products/" + id + " ; Product not found!");
             return Response.status(Response.Status.NOT_FOUND).entity("Product not found").build();
         }
-        product.delete();
+        productRepository.delete(product);
         return Response.ok("Product deleted").build();
     }
-
 }

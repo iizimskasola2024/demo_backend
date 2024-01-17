@@ -14,27 +14,27 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-public class Product extends PanacheEntityBase {
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
-    public String name;
-    public LocalDateTime created = LocalDateTime.now();
-    public double maxMeasure;
-    public double minMeasure;
+    private String name;
+    private LocalDateTime created = LocalDateTime.now();
+    private double maxMeasure;
+    private double minMeasure;
 
     public Product(ProductDTO dto) {
-        this.name = dto.name();
-        this.maxMeasure = dto.maxMeasure();
-        this.minMeasure = dto.minMeasure();
+        setName(dto.name());
+        setMaxMeasure(dto.maxMeasure());
+        setMinMeasure(dto.minMeasure());
     }
 
     public void updateFrom(ProductDTO dto) {
-        this.name = dto.name();
-        this.maxMeasure = dto.maxMeasure();
-        this.minMeasure = dto.minMeasure();
+        setName(dto.name());
+        setMaxMeasure(dto.maxMeasure());
+        setMinMeasure(dto.minMeasure());
     }
 
     public ProductDTO toDto() {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public record ProductDTO (
-        int id,
+        Long id,
         String name,
         double maxMeasure,
         double minMeasure
