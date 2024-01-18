@@ -16,10 +16,10 @@ The application can be packaged using:
 ./mvnw package
 ```
 
-Then run:
+Then run (build and up):
 ```
 docker-compose build
-docker-compose run
+docker-compose up
 ```
 
 ## Running container 📦
