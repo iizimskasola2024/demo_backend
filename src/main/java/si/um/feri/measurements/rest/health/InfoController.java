@@ -13,4 +13,5 @@ public class InfoController {
     public String hello() {
         return "Hello from RESTEasy";
     }
+
 }
