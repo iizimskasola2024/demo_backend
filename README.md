@@ -55,7 +55,7 @@ Before building the container image run:
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 
 ```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+./mvnw package -Dnative --define quarkus.native.container-build=true
 ```
 
 Then, build the image with:
