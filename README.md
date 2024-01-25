@@ -27,8 +27,6 @@ docker-compose --env-file .env.jvm -f docker-compose-jvm.yml up -d
 The application can be packaged using (no GraalVM installed):
 
 ```shell script
-
-```shell script
 ./mvnw package -Dnative --define quarkus.native.container-build=true
 ```
 
